@@ -202,6 +202,55 @@ export function stringToColor(text: string | String) {
   return color;
 }
 
+/**
+ * Get the time between to dates
+ * @param firstDate First date
+ * @param secondDate Second date
+ * @returns The time between the two dates
+ * @example
+ * getTimeBetween(new Date("2020-01-01"), new Date("2020-01-02")) // 1 day
+ */
+export const getTimeBetween = (lastUpdateTime: Date, baseTimeDate: Date) => {
+  // Time difference in milliseconds
+  const timeDiff = Math.abs(baseTimeDate.getTime() - lastUpdateTime.getTime()); // in milliseconds
+
+  // Define time intervals in milliseconds
+  const intervals = {
+    day: 24 * 60 * 60 * 1000,
+    hour: 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000,
+  };
+
+  // Calculate the number of intervals elapsed
+  const elapsed = {
+    day: Math.floor(timeDiff / intervals.day),
+    hour: Math.floor(timeDiff / intervals.hour),
+    minute: Math.floor(timeDiff / intervals.minute),
+    second: Math.floor(timeDiff / intervals.second),
+  };
+
+  // Determine the appropriate time interval to display
+  let timeUnit;
+  let timeValue;
+  if (elapsed.day > 0) {
+    timeUnit = "day";
+    timeValue = elapsed.day;
+  } else if (elapsed.hour > 0) {
+    timeUnit = "hour";
+    timeValue = elapsed.hour;
+  } else if (elapsed.minute > 0) {
+    timeUnit = "minute";
+    timeValue = elapsed.minute;
+  } else {
+    timeUnit = "second";
+    timeValue = elapsed.second;
+  }
+
+  // Construct and return the time elapsed string
+  return `${timeValue} ${timeUnit}${timeValue !== 1 ? "s" : ""}`;
+};
+
 export default {
   sizedDecimal,
   debounce,
@@ -215,4 +264,5 @@ export default {
   camelToSnakeCase,
   snakeToCamelCase,
   stringToColor,
+  getTimeBetween,
 };

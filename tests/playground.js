@@ -11,6 +11,7 @@ const {
   camelToSnakeCase,
   snakeToCamelCase,
   stringToColor,
+  getTimeBetween,
 } = require("../lib/cjs/index");
 
 const main = async () => {
@@ -47,6 +48,8 @@ const main = async () => {
   // console.log(snakeToCamelCase("snake-case_to_camel-case"));
   /** stringToColor */
   // console.log(stringToColor("Hello, World!"));
+  /** getTimeBetween */
+  // console.log(getTimeBetween(new Date("2020-01-01"), new Date("2020-01-02")));
 };
 
 main();
