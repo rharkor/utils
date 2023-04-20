@@ -210,12 +210,14 @@ export function stringToColor(text: string | String) {
  * @example
  * getTimeBetween(new Date("2020-01-01"), new Date("2020-01-02")) // 1 day
  */
-export const getTimeBetween = (lastUpdateTime: Date, baseTimeDate: Date) => {
+export const getTimeBetween = (firstDate: Date, secondDate: Date) => {
   // Time difference in milliseconds
-  const timeDiff = Math.abs(baseTimeDate.getTime() - lastUpdateTime.getTime()); // in milliseconds
+  const timeDiff = Math.abs(firstDate.getTime() - secondDate.getTime()); // in milliseconds
 
   // Define time intervals in milliseconds
   const intervals = {
+    year: 365.25 * 24 * 60 * 60 * 1000, // Average number of days in a year, including leap years
+    month: 30.44 * 24 * 60 * 60 * 1000, // Average number of days in a month
     day: 24 * 60 * 60 * 1000,
     hour: 60 * 60 * 1000,
     minute: 60 * 1000,
@@ -224,6 +226,8 @@ export const getTimeBetween = (lastUpdateTime: Date, baseTimeDate: Date) => {
 
   // Calculate the number of intervals elapsed
   const elapsed = {
+    year: Math.floor(timeDiff / intervals.year),
+    month: Math.floor(timeDiff / intervals.month),
     day: Math.floor(timeDiff / intervals.day),
     hour: Math.floor(timeDiff / intervals.hour),
     minute: Math.floor(timeDiff / intervals.minute),
@@ -233,7 +237,13 @@ export const getTimeBetween = (lastUpdateTime: Date, baseTimeDate: Date) => {
   // Determine the appropriate time interval to display
   let timeUnit;
   let timeValue;
-  if (elapsed.day > 0) {
+  if (elapsed.year > 0) {
+    timeUnit = "year";
+    timeValue = elapsed.year;
+  } else if (elapsed.month > 0) {
+    timeUnit = "month";
+    timeValue = elapsed.month;
+  } else if (elapsed.day > 0) {
     timeUnit = "day";
     timeValue = elapsed.day;
   } else if (elapsed.hour > 0) {
